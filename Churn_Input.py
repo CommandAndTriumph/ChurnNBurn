@@ -57,12 +57,23 @@ class CA_Input:
     def boolean_helper(b):
         if b == 'False':
             return False
-        if b == 'True':
+        elif b == 'True':
             return True
-        if b == 'true':
+        elif b == 'true':
             return True
-        if b == 'false':
+        elif b == 'false':
             return False
         raise ValueError("Input must be True or False")
+
+
+churn_start = str.lower(input('Is the offer for a Checking Account, Savings Account, or Credit Card? (Enter CA, SA, or CC): '))
+if churn_start == 'cc':
+    CC_Input()
+elif churn_start == 'sa':
+    SA_Input()
+elif churn_start == 'ca':
+    CA_Input()
+else:
+    raise ValueError('Input must be CA, SA, or CC')
 
 
