@@ -1,4 +1,4 @@
-import json, datetime
+import json, datetime, jsonpickle
 from Churn_Models import*
 
 class CC_Input:
@@ -12,9 +12,10 @@ class CC_Input:
         action_timedelta = datetime.timedelta(days = float(input('How many days do you have after registering for the offer to take the first step? ')))
         account_active_age = int(input('How many months do you need to accrue a balance and pay it off? '))
         account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
-        CC_Offer_Terms()
+        cc_offer = CC_Offer_Terms(offer_name, amount, balance_amount, minimum_transactions, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
         with open(f'{offer_name}.json', 'w') as fp:
-            json.dump({'Amount': amount, 'Balance Amount': balance_amount, 'Minimum Transactions': minimum_transactions, 'Issue Date': issue_date.isoformat(), 'No Action Expiration Date': unacted_expiration_timedelta.days, 'Action Timedelta': action_timedelta.days, 'Account Active Age': account_active_age, 'Account Dormant Age': account_dormant_age}, fp, indent = 4)
+            fp.write(jsonpickle.dumps(cc_offer))
+            # json.dump({'Amount': amount, 'Balance Amount': balance_amount, 'Minimum Transactions': minimum_transactions, 'Issue Date': issue_date.isoformat(), 'No Action Expiration Timedelta': unacted_expiration_timedelta.days, 'Action Timedelta': action_timedelta.days, 'Account Active Age': account_active_age, 'Account Dormant Age': account_dormant_age}, fp, indent = 4)
 
 
 class SA_Input:
