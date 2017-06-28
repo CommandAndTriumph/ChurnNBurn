@@ -103,7 +103,7 @@ class CA_Offer_Terms:
 
 
 
-chase1 = CC_Offer_Terms('Chase Sapphire', 200, 1000, 10, datetime.datetime(2017, 10, 23), datetime.timedelta(days = 30), datetime.timedelta(days = 60), 180, 360)
-
-print(f'The offer amount is ${chase1.amount}.')
-print(f'The offer is good for {chase1.action_timedelta.days} days after you choose to act upon it')
+# chase1 = CC_Offer_Terms('Chase Sapphire', 200, 1000, 10, datetime.datetime(2017, 10, 23), datetime.timedelta(days = 30), datetime.timedelta(days = 60), 180, 360)
+#
+# print(f'The offer amount is ${chase1.amount}.')
+# print(f'The offer is good for {chase1.action_timedelta.days} days after you choose to act upon it')
