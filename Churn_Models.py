@@ -1,4 +1,4 @@
-import datetime
+import jsonpickle
 
 class CC_Offer_Terms:
     def __init__(self, offer_name, amount, balance_amount, minimum_transactions, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age):
@@ -25,18 +25,7 @@ class CC_Offer_Terms:
         self.account_active_age = account_active_age
         self.account_dormant_age = account_dormant_age
 
-        # offer_name = input('Offer Name: ')
-        # amount = float(input('Bonus Amount: '))
-        # balance_amount = float(input('Monthly Balance to be Paid Off each Month: '))
-        # minimum_transactions = int(input('Number of Transactions which must be made each month (enter 0 if None/Not Applicable): '))
-        # issue_date = datetime.datetime.strptime(input('Offer Issue Date (input as MMDDYYYY): '), '%m%d%Y')
-        # unacted_expiration_timedelta = datetime.timedelta(days = float(input('The number of days you have until the offer expires: ')))
-        # action_timedelta = datetime.timedelta(days = float(input('How many days do you have after registering for the offer to take the first step? ')))
-        # account_active_age = int(input('How many months do you need to accrue a balance and pay it off? '))
-        # account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
 
-        # with open(f'{offer_name}.json', 'w') as fp:
-            # json.dump({'Amount': amount, 'Balance Amount': balance_amount, 'Minimum Transactions': minimum_transactions, 'Issue Date': issue_date.isoformat(), 'No Action Expiration Date': unacted_expiration_timedelta.days, 'Action Timedelta': action_timedelta.days, 'Account Active Age': account_active_age, 'Account Dormant Age': account_dormant_age}, fp, indent = 4)
 
 
 class SA_Offer_Terms:
@@ -46,7 +35,7 @@ class SA_Offer_Terms:
         :ivar amount:  Cash value of the offer (float) 
         :ivar deposit_amount: Initial deposit required (float)
         :ivar num_monthly_deposits: How many times per month a deposit to the account must be made (int)
-        :ivar num_permissible_withdrawls: How many withdrawals, in the span of one month, can be made from the account (int)
+        :ivar num_permissible_withdrawals: How many withdrawals, in the span of one month, can be made from the account (int)
         :ivar min_account_balance: The minimum balance the account must have to still qualify for the offer (float)
         :ivar issue_date:  The date the offer is issued (datetime)
         :ivar unacted_expiration_timedelta: The amount of time you have to act on the offer (timedelta)
@@ -93,14 +82,22 @@ class CA_Offer_Terms:
         self.num_monthly_withdrawals = num_monthly_withdrawals
         self.min_monthly_deposit_amount = min_monthly_deposit_amount
         self.min_monthly_withdrawal_amount = min_monthly_withdrawal_amount
-        self.additonal_accounts_required = additional_accounts_required
+        self.additional_accounts_required = additional_accounts_required
         self.issue_date = issue_date
         self.unacted_expiration_timedelta = unacted_expiration_timedelta
         self.action_timedelta = action_timedelta
         self.account_active_age = account_active_age
         self.account_dormant_age = account_dormant_age
-        
 
+class Offer:
+    @staticmethod
+    def read_from_json_file(filepath):
+        with open(filepath, 'r') as fp:
+            return jsonpickle.decode(fp.read())
+    @staticmethod
+    def write_to_json_file(offer, filepath):
+        with open(f'{filepath}.json', 'w') as fp:
+            fp.write(jsonpickle.dumps(offer))
 
 
 # chase1 = CC_Offer_Terms('Chase Sapphire', 200, 1000, 10, datetime.datetime(2017, 10, 23), datetime.timedelta(days = 30), datetime.timedelta(days = 60), 180, 360)

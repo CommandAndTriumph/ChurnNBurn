@@ -13,8 +13,7 @@ class CC_Input:
         account_active_age = int(input('How many months do you need to accrue a balance and pay it off? '))
         account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
         cc_offer = CC_Offer_Terms(offer_name, amount, balance_amount, minimum_transactions, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
-        with open(f'{offer_name}.json', 'w') as fp:
-            fp.write(jsonpickle.dumps(cc_offer))
+        Offer.write_to_json_file(cc_offer, offer_name)
 
 class SA_Input:
     def __init__(self):
@@ -30,8 +29,7 @@ class SA_Input:
         account_active_age = int(input('How many months do you need to satisfy the above criteria? '))
         account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
         sa_offer = SA_Offer_Terms(offer_name, amount, deposit_amount, num_monthly_deposits, num_permissible_withdrawals, min_account_balance, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
-        with open(f'{offer_name}.json', 'w') as fp:
-            fp.write(jsonpickle.dumps(sa_offer))
+        Offer.write_to_json_file(sa_offer, offer_name)
 
 class CA_Input:
     def __init__(self):
@@ -50,8 +48,7 @@ class CA_Input:
         account_active_age = int(input('How many months do you need to satisfy the above criteria? '))
         account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
         ca_offer = CA_Offer_Terms(offer_name, amount, initial_deposit_amount, account_min_bal, num_monthly_deposits, num_monthly_withdrawls, min_monthly_deposit_amount, min_monthly_withdrawal_amount, additional_accounts_required, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
-        with open(f'{offer_name}.json', 'w') as fp:
-            fp.write(jsonpickle.dumps(ca_offer))
+        Offer.write_to_json_file(ca_offer, offer_name)
 
     @staticmethod
     def boolean_helper(b):
