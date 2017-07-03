@@ -29,7 +29,7 @@ class CC_Offer_Terms:
 
 
 class SA_Offer_Terms:
-    def __init__(self, offer_name, amount, deposit_amount, num_monthly_deposits, num_permissible_withdrawls, min_account_balance, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age):
+    def __init__(self, offer_name, amount, deposit_amount, num_monthly_deposits, num_permissible_withdrawals, min_account_balance, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age):
         '''
         :ivar offer_name:  The name of the offer
         :ivar amount:  Cash value of the offer (float) 
@@ -47,7 +47,7 @@ class SA_Offer_Terms:
         self.amount = amount
         self.deposit_amount = deposit_amount
         self.num_monthly_deposits = num_monthly_deposits
-        self.num_permissible_withdrawals = num_permissible_withdrawls
+        self.num_permissible_withdrawals = num_permissible_withdrawals
         self.min_account_balance = min_account_balance
         self.issue_date = issue_date
         self.unacted_expiration_timedelta = unacted_expiration_timedelta
