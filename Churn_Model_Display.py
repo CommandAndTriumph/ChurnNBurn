@@ -65,5 +65,5 @@ class CA_Read:
             print('\n')
 
 CC_Read.cc_scan()
-SA_Read.sa_scan()
-CA_Read.ca_scan()
+# SA_Read.sa_scan()
+# CA_Read.ca_scan()

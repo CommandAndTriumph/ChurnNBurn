@@ -1,4 +1,4 @@
-from flask_json import FlaskJSON, JsonError, json_response, as_json
+from flask_json import FlaskJSON, JsonError, json_response, as_json, request
 from flask import Flask
 from Churn_Models import *
 import os
@@ -71,6 +71,95 @@ def offer_names(offer_type, offer_name):
                                       'acct_active_age': offer.account_active_age,
                                       'acct_dormant_age': offer.account_dormant_age},
                              status_ = 200)
+
+@app.route('/offer/<offer_type>', methods = ['POST'])
+def offer_input(offer_type):
+    req = request.get_json()
+
+    if offer_type.lower() == 'credit':
+        offer_name = req["offer_name"]
+        amount = req["amount"]
+        balance_amount = req["balance_amount"]
+        minimum_transactions = req['minimum_transactions']
+        issue_date = req['issue_date']
+        unacted_expiration_timedelta = req['unacted_expiration_timedelta']
+        action_timedelta = req['action_timedelta']
+        account_active_age = req['account_active_age']
+        account_dormant_age = req['account_dormant_age']
+        cc_offer = CC_Offer_Terms(offer_name,
+                              amount,
+                              balance_amount,
+                              minimum_transactions,
+                              issue_date,
+                              unacted_expiration_timedelta,
+                              action_timedelta,
+                              account_active_age,
+                              account_dormant_age)
+        Offer.write_to_json_file(cc_offer, f'JSON/CC_{offer_name}')
+        return json_response(created = True, fileName = f'CC_{offer_name}.json', status = 200)
+
+    if offer_type.lower() == 'savings':
+        offer_name = req["offer_name"]
+        amount = req["amount"]
+        deposit_amount = req['deposit_amount']
+        num_monthly_deposits = req['num_monthly_deposits']
+        num_permissible_withdrawals = req['num_permissible_withdrawals']
+        min_account_balance = req['min_account_balance']
+        issue_date = req['issue_date']
+        unacted_expiration_timedelta = req['unacted_expiration_timedelta']
+        action_timedelta = req['action_timedelta']
+        account_active_age = req['account_active_age']
+        account_dormant_age = req['account_dormant_age']
+        sa_offer = SA_Offer_Terms(offer_name,
+                                  amount,
+                                  deposit_amount,
+                                  num_monthly_deposits,
+                                  num_permissible_withdrawals,
+                                  min_account_balance,
+                                  issue_date,
+                                  unacted_expiration_timedelta,
+                                  action_timedelta,
+                                  account_active_age,
+                                  account_dormant_age)
+        Offer.write_to_json_file(sa_offer, f'JSON/SA_{offer_name}')
+        return json_response(created=True, fileName=f'SA_{offer_name}.json', status=200)
+    if offer_type.lower() == 'checking':
+        offer_name = req["offer_name"]
+        amount = req["amount"]
+        initial_deposit_amount = req['initial_deposit_amount']
+        account_min_bal = req['account_min_bal']
+        num_monthly_deposits = req['num_monthly_deposits']
+        num_monthly_withdrawals = req['num_monthly_withdrawals']
+        min_monthly_deposit_amount = req['min_monthly_deposit_amount']
+        min_monthly_withdrawal_amount = req['min_monthly_withdrawal_amount']
+        additional_accounts_required = req['additional_accounts_required']
+        issue_date = req['issue_date']
+        unacted_expiration_timedelta = req['unacted_expiration_timedelta']
+        action_timedelta = req['action_timedelta']
+        account_active_age = req['account_active_age']
+        account_dormant_age = req['account_dormant_age']
+        ca_offer = CA_Offer_Terms(offer_name,
+                                  amount,
+                                  initial_deposit_amount,
+                                  account_min_bal,
+                                  num_monthly_deposits,
+                                  num_monthly_withdrawals,
+                                  min_monthly_deposit_amount,
+                                  min_monthly_withdrawal_amount,
+                                  additional_accounts_required,
+                                  issue_date,
+                                  unacted_expiration_timedelta,
+                                  action_timedelta,
+                                  account_active_age,
+                                  account_dormant_age)
+        Offer.write_to_json_file(ca_offer, f'JSON/CA_{offer_name}')
+        return json_response(created=True, fileName=f'CA_{offer_name}.json', status=200)
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
