@@ -12,7 +12,7 @@ class CC_Read:
             print('{')
             print(f'"offer_name": "{jsonread.offer_name}",')
             print(f'"amount": {jsonread.amount},')
-            print(f'"balance_amount": {jsonread.balance_amount}')
+            print(f'"balance_amount": {jsonread.balance_amount},')
             print(f'"minimum_transactions": {jsonread.minimum_transactions},')
             print(f'"issue_date": "{jsonread.issue_date}",')
             print(f'"unacted_expiration_timedelta": "{jsonread.unacted_expiration_timedelta}",')
