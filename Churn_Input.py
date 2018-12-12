@@ -1,7 +1,11 @@
 import datetime
 from Churn_Models import*
+import db
+from dateutil.relativedelta import relativedelta
+use_db = True
 
 class CC_Input:
+
     def __init__(self):
         offer_name = input('Offer Name: ')
         amount = float(input('Bonus Amount: '))
@@ -10,10 +14,14 @@ class CC_Input:
         issue_date = datetime.datetime.strptime(input('Offer Issue Date (input as MMDDYYYY): '), '%m%d%Y')
         unacted_expiration_timedelta = datetime.timedelta(days = float(input('The number of days you have until the offer expires: ')))
         action_timedelta = datetime.timedelta(days = float(input('How many days do you have after registering for the offer to take the first step? ')))
-        account_active_age = int(input('How many months do you need to accrue a balance and pay it off? '))
-        account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
+        account_active_age = relativedelta(months = int(input('How many months do you need to accrue a balance and pay it off? ')))
+        account_dormant_age = relativedelta(int(input('How many months does the account need to remain dormant after activity on it has ceased? ')))
         cc_offer = CC_Offer_Terms(offer_name, amount, balance_amount, minimum_transactions, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
-        Offer.write_to_json_file(cc_offer, f'JSON/CC_{offer_name}')
+        if use_db:
+            db.session.add(cc_offer)
+            db.session.commit()
+        else:
+            Offer.write_to_json_file(cc_offer, f'JSON/CC_{offer_name}')
 
 class SA_Input:
     def __init__(self):
@@ -26,10 +34,14 @@ class SA_Input:
         issue_date = datetime.datetime.strptime(input('Offer Issue Date (input as MMDDYYYY): '), '%m%d%Y')
         unacted_expiration_timedelta = datetime.timedelta(days=float(input('The number of days you have until the offer expires: ')))
         action_timedelta = datetime.timedelta(days=float(input('How many days do you have after registering for the offer to take the first step? ')))
-        account_active_age = int(input('How many months do you need to satisfy the above criteria? '))
-        account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
+        account_active_age = relativedelta(months=int(input('How many months do you need to accrue a balance and pay it off? ')))
+        account_dormant_age = relativedelta(int(input('How many months does the account need to remain dormant after activity on it has ceased? ')))
         sa_offer = SA_Offer_Terms(offer_name, amount, deposit_amount, num_monthly_deposits, num_permissible_withdrawals, min_account_balance, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
-        Offer.write_to_json_file(sa_offer, f'JSON/SA_{offer_name}')
+        if use_db:
+            db.session.add(sa_offer)
+            db.session.commit()
+        else:
+            Offer.write_to_json_file(sa_offer, f'JSON/SA_{offer_name}')
 
 class CA_Input:
     def __init__(self):
@@ -45,16 +57,20 @@ class CA_Input:
         issue_date = datetime.datetime.strptime(input('Offer Issue Date (input as MMDDYYYY): '), '%m%d%Y')
         unacted_expiration_timedelta = datetime.timedelta(days=float(input('The number of days you have until the offer expires: ')))
         action_timedelta = datetime.timedelta(days=float(input('How many days do you have after registering for the offer to take the first step? ')))
-        account_active_age = int(input('How many months do you need to satisfy the above criteria? '))
-        account_dormant_age = int(input('How many months does the account need to remain dormant after activity on it has ceased? '))
+        account_active_age = relativedelta(months=int(input('How many months do you need to accrue a balance and pay it off? ')))
+        account_dormant_age = relativedelta(int(input('How many months does the account need to remain dormant after activity on it has ceased? ')))
         ca_offer = CA_Offer_Terms(offer_name, amount, initial_deposit_amount, account_min_bal, num_monthly_deposits, num_monthly_withdrawls, min_monthly_deposit_amount, min_monthly_withdrawal_amount, additional_accounts_required, issue_date, unacted_expiration_timedelta, action_timedelta, account_active_age, account_dormant_age)
-        Offer.write_to_json_file(ca_offer, f'JSON/CA_{offer_name}')
+        if use_db:
+            db.session.add(ca_offer)
+            db.session.commit()
+        else:
+            Offer.write_to_json_file(ca_offer, f'JSON/CA_{offer_name}')
 
     @staticmethod
     def boolean_helper(b):
-        if b == str.lower('False'):
+        if b.lower() == 'false':
             return False
-        elif b == str.lower('True'):
+        elif b.lower() == 'true':
             return True
         raise ValueError("Input must be True or False")
 

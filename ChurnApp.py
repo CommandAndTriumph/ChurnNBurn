@@ -123,6 +123,7 @@ def offer_input(offer_type):
                                   account_dormant_age)
         Offer.write_to_json_file(sa_offer, f'JSON/SA_{offer_name}')
         return json_response(created=True, fileName=f'SA_{offer_name}.json', status=200)
+
     if offer_type.lower() == 'checking':
         offer_name = req["offer_name"]
         amount = req["amount"]
@@ -155,13 +156,5 @@ def offer_input(offer_type):
         Offer.write_to_json_file(ca_offer, f'JSON/CA_{offer_name}')
         return json_response(created=True, fileName=f'CA_{offer_name}.json', status=200)
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
     app.run()
-
